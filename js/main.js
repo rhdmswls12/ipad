@@ -32,7 +32,7 @@ function hideBasket() {
 }
 
 
-// 검색
+// 검색!
 const headerEl=document.querySelector('header')
 const headerMenuEls=[...document.querySelectorAll('ul.menu > li')]
 const searchWrapEl=headerEl.querySelector('.search-wrap')
@@ -43,12 +43,15 @@ const searchInputEl=searchWrapEl.querySelector('input')
 const searchDelayEl=[...searchWrapEl.querySelectorAll('li')]
 
 searchStarterEl.addEventListener('click', showSearch)
-searchCloserEl.addEventListener('click', hideSearch)
+searchCloserEl.addEventListener('click', function(event){
+  event.stopPropagation()
+  hideSearch()
+})
 searchShadowEl.addEventListener('click', hideSearch)
 
 function showSearch() {
-  headerEl.classList.add('searching')
-  document.documentElement.classList.add('fixed') //documentElement가 html태그 자체
+  headerEl.classList.add('searching') 
+  stopScroll()
   headerMenuEls.reverse().forEach(function(el, index) { //el은 li태그들
     el.style.transitionDelay=index * .4 / headerMenuEls.length + 's'
   })
@@ -61,7 +64,7 @@ function showSearch() {
 }
 function hideSearch() {
   headerEl.classList.remove('searching')
-  document.documentElement.classList.remove('fixed')
+  playScroll()
   headerMenuEls.reverse().forEach(function(el, index) { 
     el.style.transitionDelay=index * .4 / headerMenuEls.length + 's'
   })
@@ -70,6 +73,72 @@ function hideSearch() {
   })
   searchDelayEl.reverse() //뒤집었던 걸 다시 원래대로
   searchInputEl.value='' //검색바가 사라지면 검색 내용 사라지도록
+}
+function playScroll() {
+  document.documentElement.classList.remove('fixed')
+}
+function stopScroll() {
+  document.documentElement.classList.add('fixed')
+}
+
+
+//헤더 메뉴 토글!
+const menuStarterEl=document.querySelector('header .menu-starter')
+menuStarterEl.addEventListener('click',function(){
+  if(headerEl.classList.contains('menuing')){
+    headerEl.classList.remove('menuing')
+    searchInputEl.value=''//헤더 메뉴 종료 시 빈문자로 초기화
+    playScroll()
+  } else {
+    headerEl.classList.add('menuing')
+    stopScroll()
+  }
+})
+
+
+//헤더 검색!
+const searchTextFieldEl=document.querySelector('header .textfield')
+const searchCancelEl=document.querySelector('header .search-canceler')
+searchTextFieldEl.addEventListener('click',function(){
+  headerEl.classList.add('searching--mobile')
+  searchInputEl.focus() //모바일 모드일 때 검색바가 바로 포커스 되도록
+})
+searchCancelEl.addEventListener('click',function(){
+  headerEl.classList.remove('searching--mobile')
+})
+
+
+//데스크탑 모드에서 검색을 활성화한 후 모바일 모드 크기로 줄일 때 예외 처리
+window.addEventListener('resize', function(){ //화면 자체의 크기가 변할 때마다
+  if(window.innerWidth <= 740){ //모바일 모드에서
+    headerEl.classList.remove('searching') //searching 클래스 제거
+  } else { //태블릿/데스크탑 모드에서
+    headerEl.classList.remove('searching--mobile') //searching--mobile 클래스 제거
+  } 
+})
+
+//
+const navEl=document.querySelector('nav')
+const navMenuToggleEl=navEl.querySelector('.menu-toggler')
+const navMenuShadowEl=navEl.querySelector('.shadow')
+
+navMenuToggleEl.addEventListener('click', function(){
+  if(navEl.classList.contains('menuing')){
+    hideNavMenu()
+  } else {
+    showNavMenu()
+  }
+})
+navEl.addEventListener('click',function(event){ //navigation 영역을 클릭하는 것은 화면(=window영역)을 클릭하는 것이 아니도록
+  event.stopPropagation()
+})
+navMenuShadowEl.addEventListener('click',hideNavMenu) //shadow 영역과
+window.addEventListener('click', hideNavMenu) //window 영역 클릭 시 메뉴 사라지도록
+function showNavMenu() {
+  navEl.classList.add('menuing')
+}
+function hideNavMenu() {
+  navEl.classList.remove('menuing')
 }
 
 // 요소의 가시성 관찰(어렵다..)
@@ -104,7 +173,7 @@ pauseBtn.addEventListener('click', function(){
 })
 
 
-// '당신에게 맞는 iPad는?' 렌더링!
+// '당신에게 맞는 iPad는?' 랜더링!
 //textContent는 글자 내용 그대로, innerHTML은 실제 속성으로 들어감
 
 const itemsEl=document.querySelector('section.compare .items') //itemsEl은 html 상에서 실제로 존재하는 items 클래스의 div 요소
@@ -154,6 +223,7 @@ navigations.forEach(function(nav){
   mapEl.innerHTML=/* html */ `
   <h3>
     <span class="text">${nav.title}</span>
+    <span class="icon">+</span>
   </h3>
   <ul>
     ${mapList}
@@ -166,3 +236,12 @@ navigations.forEach(function(nav){
 
 const thisYearEl=document.querySelector('span.this-year')
 thisYearEl.textContent=new Date().getFullYear() //현재 년도
+
+
+const mapEls=document.querySelectorAll('footer .navigations .map')
+mapEls.forEach(function (el) {
+  const h3El=el.querySelector('h3')
+  h3El.addEventListener('click', function(){
+    el.classList.toggle('active')
+  })
+})

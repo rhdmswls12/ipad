@@ -38,6 +38,14 @@
     <div class="inner">
 
       <ul class="menu">
+        <li class="menu-starter">
+          <a>
+            <div>
+              <span></span>
+              <span></span>
+            </div>
+          </a>
+        </li>
         <li class="apple-logo"><a href="javascript:void(0)">Apple</a></li>
         <li><a href="javascript:void(0)">스토어</a></li>
         <li><a href="javascript:void(0)">Mac</a></li>
@@ -75,6 +83,7 @@
             <div class="search-icon"></div>
             <div class="search-closer"></div>
           </div>
+          <div class="search-canceler">취소</div>
           <div class="autocompletes">
             <h3>빠른 링크</h3>
             <ul>
@@ -88,15 +97,32 @@
         </div>
       </div>
 
+      <div class="clone-menu">
+        <ul>
+          <li><a href="javascript:void(0)">스토어</a></li>
+          <li><a href="javascript:void(0)">Mac</a></li>
+          <li><a href="javascript:void(0)">iPad</a></li>
+          <li><a href="javascript:void(0)">iPhone</a></li>
+          <li><a href="javascript:void(0)">Watch</a></li>
+          <li><a href="javascript:void(0)">AirPods</a></li>
+          <li><a href="javascript:void(0)">Apple 독점 제공</a></li>
+          <li><a href="javascript:void(0)">액세서리</a></li>
+          <li><a href="javascript:void(0)">고객지원</a></li>
+        </ul>
+      </div>
+
     </div>
   </header>
 
 
   <!-- Navigation -->
   <nav>
+    <div class="shadow"></div>
+    <div class="contents-bg"></div>
     <div class="inner">
 
       <h1>iPad</h1>
+      <div class="menu-toggler"></div>
       <ul class="menu">
         <li class="active"><a href="javascript:void(0)">개요</a></li>
         <li><a href="javascript:void(0)">iPad를 선택하는 이유</a></li>
@@ -264,17 +290,19 @@
         <div class="figures">
           <figure>
             <img src="./images/camera_hardware.png" alt="iPad의 영상 통화 중 센터 스테이지 기능이 사용되는 예시" />
-            <video src="./videos/center-stage.mp4" muted loop autoplay></video>
-            <div class="controller--play">
-              재생<img src="./images/video-play.svg" alt="Play" />
-            </div>
-            <div class="controller--pause">
-              일시정지<img src="./images/video-pause.svg" alt="Pause" />
-            </div>
-            <figcaption class="bgtext">센터 스테이지 덕분에 영상 통화도 더 자연스럽게</figcaption>
-          </figure>
+            <div class="video-wrap">
+                <video src="./videos/center-stage.mp4" muted autoplay loop></video>
+                <div class="controller--play hide">
+                  재생 <img src="./images/video-play.svg" alt="Play" />
+                </div>
+                <div class="controller--pause">
+                  일시정지 <img src="./images/video-pause.svg" alt="Pause" />
+                </div>
+              </div>
+              <figcaption class="bgtext">센터 스테이지 덕분에 영상 통화도 더 자연스럽게</figcaption>
+            </figure>
+          </div>
         </div>
-      </div>
 
       <div class="edit feature">
         <div class="infos infos--center">
